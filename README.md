@@ -9,11 +9,11 @@ py palette.py -f <filename>
 
 ### Optional Flags
 
-Number of colours
+#### Number of colours
 
 py palette.py -f <filename> -c <n_colours>
 
-Output filename
+#### Output filename
 
 py palette.py -f <filename> -o <output>
 
