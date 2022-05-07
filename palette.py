@@ -1,3 +1,4 @@
+import sys
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from sklearn.cluster import KMeans
@@ -39,13 +40,18 @@ def draw_colour_code(draw, rgb, N, img_height, block_size):
               'black', 
               font=font)
 
-def run():
+def run(path, n_clusters=5, output='colours'):
     print('Running...')
-    arr = load_image('wave.jpg')
+    try:
+        arr = load_image(path)
+    except AttributeError as e:
+       print('Error: Image file not found.')
+       return
+    
     print('Image size:', arr.shape)
     X = arr.reshape(-1, arr.shape[-1])  # Create single vector of all rgb values
 
-    colours = colour_clusters(X)
+    colours = colour_clusters(X, n_clusters)
     print('Colours used:', [tuple(colour) for colour in colours])
     
     colour_blocks = build_colour_blocks(arr.shape[1], colours)
@@ -53,9 +59,24 @@ def run():
     
     draw = ImageDraw.Draw(img)
     for i, rgb in enumerate(colours):
-        draw_colour_code(draw, tuple(rgb), i, arr.shape[0], arr.shape[1]//len(colours))
+        draw_colour_code(draw, tuple(rgb), i, arr.shape[0], arr.shape[1]//n_clusters)
     
-    img.save('colours.png')
+    img.save(output + '.png')
 
 if __name__ == '__main__':
-    run()
+    path = None
+    n_clusters = 5
+    output = 'colours'
+    for i, arg in enumerate(sys.argv[1:]):
+        if i != len(sys.argv)-1:
+            if arg == '-f':
+                path = sys.argv[i+2]
+            elif arg == '-c':
+                n_clusters = sys.argv[i+2]
+            elif arg == '-o':
+                output = sys.argv[i+2]
+
+    if path == None:
+        print('Error: Path to image file required with cmdline flag -f <path>')
+    else:
+        run(path=path, n_clusters=n_clusters, output=output)
