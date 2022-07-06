@@ -1,4 +1,4 @@
-# Colour-Palette
+# Color Palette
 A configurable script to extract the colour palette from images.
 
 ![image description](colours.png)
