@@ -5,7 +5,7 @@ A configurable script to extract the colour palette from images using the k-mean
 
 ## Usage
 
-```py
+```bash
 python3 palette.py -f <filename>
 ```
 
@@ -13,13 +13,13 @@ python3 palette.py -f <filename>
 
 #### Number of colours
 
-```py
+```bash
 python3 palette.py -f <filename> -c <n_colours>
 ```
 
 #### Output filename
 
-```py
+```bash
 python palette.py -f <filename> -o <output>
 ```
 
